@@ -132,7 +132,7 @@ public class SalesDao {
         try (
                 Connection conn = ConnectionUtil.getInstance().getConnection();
                 PreparedStatement pstm = conn.prepareStatement(SQL_FIND_ITEM_BY_SEARCH_CRITERIA)
-            ) {
+        ) {
 
             if (!itemName.equals("") && from == null && to == null) {
                 pstm.setString(1, itemName);
@@ -170,7 +170,7 @@ public class SalesDao {
             }
 
         } catch (SQLException exception) {
-                salesModels =  null;
+            salesModels =  null;
             System.out.println(exception);
         } finally {
 
@@ -302,7 +302,7 @@ public class SalesDao {
         try (
                 Connection conn = ConnectionUtil.getInstance().getConnection();
                 PreparedStatement pstm = conn.prepareStatement(SQL_GET_INSERTED_SALES_MODEL)
-            ) {
+        ) {
 
             pstm.setInt(1, id);
             ResultSet rs = pstm.executeQuery();
@@ -413,7 +413,7 @@ public class SalesDao {
      */
     public double getDailySales (int today) {
         final String SQL_TODAYS_SALES = "SELECT SUM(`" +
-                SalesEntry.COLUMN_RATE + "`) AS " +
+                SalesEntry.COLUMN_SALE_PRICE + "`) AS " +
                 InventoryContract.COLUMN_ALIAS_SUM +
                 " FROM `" + SalesEntry.TABLE_NAME +
                 "` WHERE DAYOFMONTH(`" +
@@ -427,7 +427,7 @@ public class SalesDao {
         try (
                 Connection conn = ConnectionUtil.getInstance().getConnection();
                 PreparedStatement psmt = conn.prepareStatement(SQL_TODAYS_SALES)
-            ) {
+        ) {
 
             psmt.setInt(1, today);
             rs = psmt.executeQuery();
@@ -453,7 +453,7 @@ public class SalesDao {
 
     public double getWeeklySales () {
         final String SQL_WEEKLY_SALES = "SELECT " +
-                "SUM(`" + SalesEntry.COLUMN_RATE +"`) AS " +
+                "SUM(`" + SalesEntry.COLUMN_SALE_PRICE +"`) AS " +
                 InventoryContract.COLUMN_ALIAS_SUM +
                 " FROM " + SalesEntry.TABLE_NAME +
                 " GROUP BY" +
@@ -484,7 +484,7 @@ public class SalesDao {
 
     public double getMonthlySales () {
         final String SQL_MONTHLY_SALES = "SELECT " +
-                "SUM(`" + SalesEntry.COLUMN_RATE +"`) AS " +
+                "SUM(`" + SalesEntry.COLUMN_SALE_PRICE +"`) AS " +
                 InventoryContract.COLUMN_ALIAS_SUM +
                 " FROM " + SalesEntry.TABLE_NAME +
                 " GROUP BY" +
@@ -515,7 +515,7 @@ public class SalesDao {
 
     public double getYearlySales () {
         final String SQL_YEARLY_SALES = "SELECT " +
-                "SUM(`" + SalesEntry.COLUMN_RATE +"`) AS " +
+                "SUM(`" + SalesEntry.COLUMN_SALE_PRICE +"`) AS " +
                 InventoryContract.COLUMN_ALIAS_SUM +
                 " FROM " + SalesEntry.TABLE_NAME +
                 " GROUP BY" +
@@ -609,7 +609,7 @@ public class SalesDao {
         try (
                 Connection conn = ConnectionUtil.getInstance().getConnection();
                 PreparedStatement pstm = conn.prepareStatement(SQL_TOP5_SALES)
-            ){
+        ){
 
             if (month > -1) {
                 pstm.setInt(1, year);
@@ -623,10 +623,10 @@ public class SalesDao {
 
             while (rs.next()) {
                 top5SalesModels.addAll(
-                    new Top5SalesModel( ++sn,
-                            rs.getInt(InventoryContract.COLUMN_ALIAS_TOTAL),
-                            rs.getString(SalesEntry.COLUMN_ITEM_NAME)
-                    )
+                        new Top5SalesModel( ++sn,
+                                rs.getInt(InventoryContract.COLUMN_ALIAS_TOTAL),
+                                rs.getString(SalesEntry.COLUMN_ITEM_NAME)
+                        )
                 );
             }
         } catch (SQLException exception) {
