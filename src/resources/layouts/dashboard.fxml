@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.collections.FXCollections?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="inventory_management.controllers.DashboardController"
+      prefHeight="400.0" prefWidth="600.0" fx:id="dashboardRoot">
+    <Text text="Dashboard">
+       <VBox.margin>
+           <Insets topRightBottomLeft="16" />
+       </VBox.margin>
+    </Text>
+    <ScrollPane hbarPolicy="NEVER" fx:id="spDash">
+        <VBox>
+            <TilePane hgap="16" vgap="16" fx:id="tpSummary">
+                <padding>
+                    <Insets topRightBottomLeft="10"/>
+                </padding>
+                <AnchorPane onMouseClicked="#ancSalesOrderHandler">
+                    <Label AnchorPane.rightAnchor="10" AnchorPane.topAnchor="20">
+                        <graphic>
+                            <ImageView>
+                                <Image url="@/resources/icons/png/48x48/briefcase.png" />
+                            </ImageView>
+                        </graphic>
+                    </Label>
+                    <Rectangle width="350" height="150" fill="aqua" style="-fx-opacity: 0.6;"
+                               arcHeight="10" arcWidth="10"/>
+                    <Text text="0" fx:id="txtSalesOrder" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" style="-fx-font-family: Arial;
+            -fx-font-size: 30pt; -fx-fill: #fff;" />
+                    <Text text="Sales Order" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="10"
+                          style="-fx-font-family: sans-serif;
+            -fx-font-size: 15pt; -fx-fill: #fff;"/>
+                </AnchorPane>
+
+                <AnchorPane onMouseClicked="#ancStockRegistryHandler">
+                    <Label AnchorPane.rightAnchor="10" AnchorPane.topAnchor="20">
+                        <graphic>
+                            <ImageView>
+                                <Image url="@/resources/icons/png/48x48/plus.png" />
+                            </ImageView>
+                        </graphic>
+                    </Label>
+                    <Rectangle width="350" height="150" fill="#4ac745" style="-fx-opacity: 0.6;"
+                               arcHeight="10" arcWidth="10"/>
+                    <Text text="0" fx:id="txtStockRegistry" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10"
+                          style="-fx-font-family: Arial; -fx-font-size: 30pt; -fx-fill: #fff;" />
+                    <Text text="Stock Registry" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="10"
+                          style="-fx-font-family: sans-serif;
+            -fx-font-size: 15pt; -fx-fill: #fff;"/>
+                </AnchorPane>
+
+                <AnchorPane>
+
+                    <Rectangle width="350" height="150" fill="#ff0467" style="-fx-opacity: 0.6;"
+                               arcHeight="10" arcWidth="10"/>
+                    <Text text="0" fx:id="txtUserCount" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" style="-fx-font-family: Arial;
+            -fx-font-size: 30pt; -fx-fill: #fff;" />
+                    <Text text="Users" AnchorPane.topAnchor="80" AnchorPane.leftAnchor="10"
+                          style="-fx-font-family: sans-serif;
+            -fx-font-size: 15pt; -fx-fill: #fff;"/>
+                    <VBox AnchorPane.topAnchor="30" AnchorPane.leftAnchor="100" spacing="10" alignment="CENTER" visible="false"
+                          fx:id="vbUserFields">
+                        <TextField promptText="Username" prefWidth="150" fx:id="tfUserName"/>
+                        <ChoiceBox prefWidth="150" fx:id="chbUserRole">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value=" - User Role - " />
+                                </FXCollections>
+                            </items>
+
+                            <value>
+                                <String fx:value=" - User Role - " />
+                            </value>
+                        </ChoiceBox>
+                        <HBox fx:id="hbUploadPlus" spacing="10" alignment="CENTER">
+                            <Button text="upload" fx:id="btnUpload"/>
+                            <Button fx:id="btnAddUser">
+                                <graphic>
+                                    <ImageView>
+                                        <Image url="@/resources/icons/png/16x16/check_mark.png" />
+                                    </ImageView>
+                                </graphic>
+                            </Button>
+                        </HBox>
+                    </VBox>
+
+                    <VBox  AnchorPane.rightAnchor="10" AnchorPane.topAnchor="20">
+                        <Label onMouseClicked="#lbUserIconHandler"
+                               style="-fx-opacity:0.5;" fx:id="lblImage">
+                            <graphic>
+                                <ImageView  fx:id="imgvUsers">
+                                    <Image url="@/resources/icons/png/48x48/users.png"/>
+                                </ImageView>
+                            </graphic>
+                        </Label>
+
+                        <Label fx:id="lblErrorMsg" maxWidth="48" wrapText="true" textAlignment="CENTER"/>
+                    </VBox>
+                </AnchorPane>
+            </TilePane>
+
+            <GridPane hgap="16" vgap="16" fx:id="gpInvSummary">
+                <padding>
+                    <Insets topRightBottomLeft="16" />
+                </padding>
+
+                <VBox fx:id="vbYearlySalesReport">
+                    <!--<Text text="YEARLY SALES REPORT" />-->
+                    <VBox fx:id="vbChartParent"/>
+                    <HBox spacing="50">
+                        <VBox.margin>
+                            <Insets top="16" />
+                        </VBox.margin>
+                        <padding>
+                            <Insets topRightBottomLeft="16" />
+                        </padding>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Text text="0.00" fx:id="txtDailySales"/>
+                            <Text text="Today's Sales" />
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Text text="0.00" fx:id="txtWeeklySales"/>
+                            <Text text="This Week's Sales" />
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Text text="0.00" fx:id="txtMonthlySales"/>
+                            <Text text="This Month's Sales" />
+                        </VBox>
+
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Text text="0.00" fx:id="txtYearlySales"/>
+                            <Text text="This Year's Sales" />
+                        </VBox>
+                    </HBox>
+                </VBox>
+
+                <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="vbTop5SalesYear">
+                    <Text text="TOP 5 SELLING PRODUCT" fx:id="txtTop5SalesYear"/>
+                    <TableView fx:id="tbvTopSalesYear">
+                        <columns>
+                            <TableColumn text="SN" fx:id="tcTop5SalesYearSN" sortable="false"/>
+                            <TableColumn text="Product Name" fx:id="tcTop5SalesYearPN" sortable="false"/>
+                            <TableColumn text="QT     " fx:id="tcTop5SalesYearQT" sortable="false"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+                <VBox fx:id="vbRecentEvents" GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <Text text="RECENT EVENTS" />
+                    <ListView fx:id="lvRecentEvents"/>
+                </VBox>
+
+                <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="vbTop5SalesMonth">
+                    <Text text="TOP 5 SELLING PRODUCT" fx:id="txtTop5SalesMonth" />
+                    <TableView fx:id="tbvTopSalesMonth">
+                        <columns>
+                            <TableColumn text="SN" fx:id="tcTop5SalesMonthSN" sortable="false"/>
+                            <TableColumn text="Product Name" fx:id="tcTop5SalesMonthPN" sortable="false"/>
+                            <TableColumn text="QT     " fx:id="tcTop5SalesMonthQT" sortable="false"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+
+            </GridPane>
+        </VBox>
+    </ScrollPane>
+
+
+</VBox>
