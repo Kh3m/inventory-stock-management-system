@@ -1,4 +1,7 @@
-#How to use this App
+# inventory-stock-management-system
+App to manage all sort of business stocks
+
+-How to use this App
 
 1. Open app with IntelliJ IDEA (recommended) but u can use any IDEA of your choice.
 2. Open the database folder you will find an SQL script (stock_inventory.sql) run it using MYSQL.
